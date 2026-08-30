@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTN - The Pre-2025 Reality</title>
+    <title>The Pre-2025 Reality</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap');
@@ -13,16 +13,15 @@
             --ttn-trust-blue: #005EB8;
             --ttn-sky-cyan: #59CBE8;
             --ttn-action-orange: #FE5000;
-            --ttn-action-orange-hover: #E04600;
             --ttn-slate: #333F48;
             --ttn-ice-blue: #DBE2E9;
             --ttn-success: #00BF6F;
             --font-main: 'Inter', sans-serif;
             --font-heading: 'Montserrat', sans-serif;
-            --radius-sm: 4px;
             --radius-soft: 8px;
-            --shadow-main: 0px 4px 12px rgba(12, 35, 64, 0.08);
-            --shadow-hover: 0px 8px 20px rgba(12, 35, 64, 0.12);
+            --radius-card: 16px;
+            --shadow-main: 0px 4px 16px rgba(12, 35, 64, 0.05);
+            --shadow-hover: 0px 8px 24px rgba(12, 35, 64, 0.09);
         }
 
         *, *::before, *::after {
@@ -47,40 +46,59 @@
             font-family: var(--font-heading);
         }
 
-        button:focus-visible, a:focus-visible {
-            outline: 2px solid var(--ttn-sky-cyan);
-            outline-offset: 4px;
-        }
-
-        .ttn-card {
+        /* Clean White Card Structure */
+        .clean-card {
             background-color: #FFFFFF;
-            border: 1px solid var(--ttn-ice-blue);
-            border-radius: var(--radius-soft);
+            border: 1.5px solid var(--ttn-ice-blue);
+            border-left: 5px solid var(--ttn-trust-blue);
+            border-radius: var(--radius-card);
             box-shadow: var(--shadow-main);
             transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out, border-color 200ms ease-in-out;
+            cursor: pointer;
         }
 
-        .ttn-card-interactive:hover {
-            transform: translateY(-4px);
+        .clean-card:hover {
             box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
         }
 
-        .gap-card.revealed {
-            border-color: var(--ttn-action-orange);
-            background: linear-gradient(135deg, #FFF9F5 0%, #FFFFFF 100%);
+        .clean-card.open {
+            border-left-color: var(--ttn-action-orange);
         }
 
-        .btn-primary-cta {
-            background-color: var(--ttn-action-orange);
+        .clean-card.open .chevron-icon {
+            transform: rotate(180deg);
+            color: var(--ttn-action-orange);
+        }
+
+        .clean-card.open .badge-num {
+            background-color: #FFE5D9;
+            color: var(--ttn-action-orange);
+        }
+
+        /* Slide Switching */
+        .slide-pane {
+            display: none;
+            opacity: 0;
+            transition: opacity 200ms ease-in-out;
+        }
+        .slide-pane.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Buttons */
+        .btn-continue {
+            background-color: var(--ttn-trust-blue);
             color: #FFFFFF;
             font-family: var(--font-heading);
             font-weight: 700;
-            border-radius: var(--radius-sm);
-            padding: 10px 20px;
+            border-radius: var(--radius-soft);
+            padding: 10px 24px;
             transition: background-color 200ms ease-in-out;
         }
-        .btn-primary-cta:hover {
-            background-color: var(--ttn-action-orange-hover);
+        .btn-continue:hover {
+            background-color: #004A91;
         }
 
         .btn-ghost {
@@ -88,327 +106,432 @@
             color: var(--ttn-navy);
             font-family: var(--font-heading);
             font-weight: 700;
-            border-radius: var(--radius-sm);
+            border-radius: var(--radius-soft);
+            padding: 10px 18px;
             transition: background-color 200ms ease-in-out;
         }
         .btn-ghost:hover {
             background-color: var(--ttn-ice-blue);
         }
 
-        .tab-btn {
-            font-family: var(--font-heading);
-            font-size: 13px;
-            font-weight: 700;
-            border-radius: var(--radius-sm);
-            transition: all 200ms ease-in-out;
+        /* Toggle Switch UI */
+        .toggle-switch {
+            width: 36px;
+            height: 20px;
+            background-color: var(--ttn-ice-blue);
+            border-radius: 9999px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 200ms ease-in-out;
         }
-        .tab-btn.active {
-            background-color: var(--ttn-trust-blue);
-            color: #FFFFFF;
-            box-shadow: 0 2px 8px rgba(0, 94, 184, 0.25);
+        .toggle-switch.active {
+            background-color: var(--ttn-success);
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            transition: transform 200ms ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .toggle-switch.active::after {
+            transform: translateX(16px);
         }
     </style>
 </head>
-<body class="p-2 sm:p-4">
+<body class="p-4 sm:p-6 lg:p-8 flex flex-col justify-between min-h-screen">
 
-    <div class="max-w-5xl mx-auto bg-white rounded-[8px] border border-[#DBE2E9] shadow-[0px_4px_12px_rgba(12,35,64,0.08)] overflow-hidden flex flex-col">
+    <div class="max-w-6xl mx-auto w-full flex-grow flex flex-col justify-between">
         
-        <div class="bg-[#0C2340] text-white p-4 sm:p-6 flex flex-wrap items-center justify-between gap-4 border-b border-[#0C2340]">
-            <div class="flex items-center space-x-3.5">
-                <div class="w-10 h-10 rounded-[4px] bg-[#59CBE8]/15 border border-[#59CBE8]/40 flex items-center justify-center text-[#59CBE8] shrink-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <div>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-[11px] font-bold px-2 py-0.5 rounded-[4px] bg-[#005EB8] text-white border border-[#59CBE8]/40 uppercase tracking-wider font-heading">
-                            Pre-2025 Context
-                        </span>
-                        <span class="text-xs text-[#DBE2E9]">Historical Practice Analysis</span>
-                    </div>
-                    <h2 class="text-lg sm:text-xl font-bold text-white mt-1 font-heading">The Pre-2025 Reality: Five Practice Gaps</h2>
-                </div>
-            </div>
+        <div class="flex items-center justify-between mb-4 w-full">
+            <span class="inline-flex items-center space-x-1.5 text-[11px] font-bold text-[#005EB8] bg-[#DBE2E9] px-3 py-1 rounded-[4px] font-heading uppercase tracking-wider">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>Historical Context</span>
+            </span>
 
-            <div class="flex items-center space-x-2">
-                <button id="audioToggleBtn" class="flex items-center space-x-2 bg-[#0C2340] hover:bg-[#18365c] text-white px-3.5 py-2 rounded-[4px] border border-[#59CBE8]/50 text-xs sm:text-sm font-heading font-semibold transition-all duration-200 cursor-pointer">
-                    <svg id="speakerIcon" class="w-4 h-4 text-[#59CBE8] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
-                    <span id="audioStatusText">Listen to Dr. Lindsay</span>
-                </button>
+            <div id="audioToggleBtn" class="flex items-center space-x-2.5 cursor-pointer bg-white px-3 py-1.5 rounded-full border border-[#DBE2E9] shadow-sm hover:border-slate-300 transition-all">
+                <svg id="speakerIcon" class="w-4 h-4 text-[#005EB8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                <span class="text-xs font-semibold text-[#0C2340] font-heading">Audio Narration</span>
+                <div id="audioSwitch" class="toggle-switch"></div>
             </div>
         </div>
 
-        <div class="bg-[#F4F7FA] border-b border-[#DBE2E9] px-4 sm:px-6 py-2.5 flex items-center justify-between">
-            <div class="flex space-x-2">
-                <button id="tabOverview" class="tab-btn active px-4 py-2 cursor-pointer" onclick="switchView('overview')">
-                    1. Historical Practice Context
-                </button>
-                <button id="tabCards" class="tab-btn px-4 py-2 text-[#333F48] hover:text-[#0C2340] cursor-pointer flex items-center gap-2" onclick="switchView('cards')">
-                    <span>2. Inspect the 5 Gaps</span>
-                    <span id="gapCountBadge" class="bg-[#DBE2E9] text-[#005EB8] text-[11px] font-bold px-2 py-0.5 rounded-[4px]">0/5</span>
-                </button>
-            </div>
-            <div class="hidden md:block text-xs font-semibold text-[#333F48]">
-                NHS Primary Care Standards (Dec 2025)
-            </div>
-        </div>
-
-        <div id="overviewView" class="p-5 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div id="slide1" class="slide-pane active flex-col flex-grow justify-between">
             
-            <div class="lg:col-span-7 space-y-4">
-                <div class="bg-[#FFFFFF] border border-[#DBE2E9] rounded-[8px] p-4 shadow-[0px_4px_12px_rgba(12,35,64,0.04)]">
-                    <span class="inline-block text-[12px] font-bold text-[#005EB8] bg-[#DBE2E9] px-2.5 py-0.5 rounded-[4px] font-heading uppercase mb-1.5">
-                        Operating Environment
-                    </span>
-                    <p class="text-sm sm:text-base text-[#333F48]">
-                        Prior to the December 2025 guidance, chaperoning across general practice was largely informal, inconsistent, and predominantly reactive.
-                    </p>
+            <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-[#0C2340] tracking-tight font-heading">
+                    The Pre-2025 Reality
+                </h1>
+                <p class="text-[#333F48] text-sm sm:text-base mt-2">
+                    Tap to uncover the historical gaps in chaperoning practice.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+                
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">1</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Reactive, not proactive</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="flex justify-center my-4">
+                            <img src="Gap_1.jpeg" alt="Reactive Practice" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            A chaperone was made available on request but rarely offered proactively. Patients unaware of their rights routinely proceeded without safeguards.
+                        </div>
+                    </div>
                 </div>
 
-                <div class="bg-[#FFFFFF] border border-[#DBE2E9] rounded-[8px] p-4 shadow-[0px_4px_12px_rgba(12,35,64,0.04)] space-y-2">
-                    <span class="inline-block text-[12px] font-bold text-[#0C2340] bg-[#DBE2E9] px-2.5 py-0.5 rounded-[4px] font-heading uppercase mb-1">
-                        The Core Problem
-                    </span>
-                    <p class="text-sm sm:text-base text-[#333F48] leading-relaxed">
-                        Clinicians relied on patient requests, accepted informal family members, and conducted remote consultations without structured safeguards or defensible records.
-                    </p>
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">2</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Missing at booking</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="flex justify-center my-4">
+                            <img src="Gap_2.jpeg" alt="Missing at Booking" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            No expectation existed to raise chaperoning during initial booking. Patients arrived unprepared and decisions were rushed in the consultation room.
+                        </div>
+                    </div>
                 </div>
 
-                <div class="bg-[#FFF9F5] border-l-4 border-l-[#FE5000] border border-[#DBE2E9] rounded-[8px] p-4">
-                    <span class="inline-block text-[12px] font-bold text-[#FE5000] font-heading uppercase mb-1">
-                        The Clinical & Legal Exposure
-                    </span>
-                    <p class="text-sm sm:text-base text-[#333F48]">
-                        These systemic habits left patients unprotected, clinicians defenseless against uncorroborated allegations, and practices failing CQC compliance.
-                    </p>
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">3</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Informal relatives</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="flex justify-center my-4">
+                            <img src="Gap_3.jpeg" alt="Informal Relatives" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            Family members accompanied patients and were casually treated as chaperones despite lacking formal safeguarding training, impartiality, or legal standing.
+                        </div>
+                    </div>
                 </div>
 
-                <button onclick="switchView('cards')" class="btn-primary-cta w-full sm:w-auto mt-2 inline-flex items-center justify-center space-x-2 cursor-pointer">
-                    <span>Inspect the 5 Historical Gaps</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between sm:col-span-1 lg:col-span-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">4</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Digital blindspots</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="flex justify-center my-4">
+                            <img src="Gap_4.jpeg" alt="Digital Blindspots" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            Policies applied solely to in-person visits. Video examinations and asynchronous digital photo reviews operated without structured chaperone protocols.
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between sm:col-span-1 lg:col-span-2">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">5</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Poor documentation</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="flex justify-center my-4">
+                            <img src="Gap_5.jpeg" alt="Poor Documentation" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            Documentation varied widely across practices, often noting only physical presence while failing to record the proactive offer, patient decision, or staff role.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-slate-200/60 mt-auto">
+                <div class="w-24"></div>
+                <div class="flex space-x-2 items-center">
+                    <div class="h-2 w-7 bg-[#005EB8] rounded-full transition-all"></div>
+                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
+                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
+                </div>
+                <button onclick="goToSlide(2)" class="btn-continue text-xs sm:text-sm cursor-pointer shadow-sm">
+                    Continue
                 </button>
             </div>
-
-            <div class="lg:col-span-5 bg-[#0C2340] rounded-[8px] p-5 border border-[#DBE2E9]/20 text-white flex flex-col items-center justify-center relative overflow-hidden shadow-inner min-h-[280px]">
-                <div class="w-full flex items-center justify-between border-b border-white/10 pb-2.5 mb-3.5 text-xs text-[#DBE2E9]">
-                    <span class="flex items-center space-x-2 text-[#59CBE8] font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-[#59CBE8]"></span>
-                        <span>Clinical Governance Audit</span>
-                    </span>
-                    <span class="bg-white/10 px-2 py-0.5 rounded-[4px] text-[11px] font-mono">Pre-2025 Model</span>
-                </div>
-
-                <div class="w-full space-y-2.5 my-2">
-                    <div class="bg-[#18365c] rounded-[4px] p-3 border border-[#DBE2E9]/20 flex items-center justify-between">
-                        <span class="text-xs font-heading font-bold text-white">Chaperone Offer Timing</span>
-                        <span class="text-[11px] text-[#FE5000] font-semibold">At examination only</span>
-                    </div>
-                    <div class="bg-[#18365c] rounded-[4px] p-3 border border-[#DBE2E9]/20 flex items-center justify-between">
-                        <span class="text-xs font-heading font-bold text-white">Informal Chaperones</span>
-                        <span class="text-[11px] text-[#FE5000] font-semibold">Relatives permitted</span>
-                    </div>
-                    <div class="bg-[#18365c] rounded-[4px] p-3 border border-[#DBE2E9]/20 flex items-center justify-between">
-                        <span class="text-xs font-heading font-bold text-white">Remote Consultations</span>
-                        <span class="text-[11px] text-[#FE5000] font-semibold">No formal policy</span>
-                    </div>
-                </div>
-
-                <div class="w-full mt-3 bg-[#FE5000]/15 border border-[#FE5000]/50 rounded-[4px] p-2.5 flex items-start space-x-2 text-[#DBE2E9] text-xs">
-                    <svg class="w-4 h-4 text-[#FE5000] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span><strong class="text-white font-heading">Outcome:</strong> High risk of unsupported allegations and unaddressed safeguarding needs.</span>
-                </div>
-            </div>
-
         </div>
 
-        <div id="cardsView" class="p-5 sm:p-8 hidden">
-            <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
-                <div>
-                    <h3 class="text-lg sm:text-xl font-bold text-[#0C2340] font-heading">Five Historical Practice Gaps</h3>
-                    <p class="text-xs sm:text-sm text-[#333F48] mt-0.5">Click each card to review the practice gap and its clinical risk.</p>
+        <div id="slide2" class="slide-pane flex-col flex-grow justify-between">
+            <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0C2340] tracking-tight font-heading">
+                    Where the Gaps Created Risk
+                </h2>
+                <p class="text-[#333F48] text-sm sm:text-base mt-2">
+                    Tap to inspect the clinical and governance liabilities generated by these historical gaps.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-3">
+                                <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">!</span>
+                                <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Patient Vulnerability</h3>
+                            </div>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed mt-2">
+                            Patients unaware of their right could not exercise it. Children, young people, and vulnerable adults were particularly exposed to unchaperoned intimate procedures.
+                        </div>
+                    </div>
                 </div>
-                <div class="text-xs font-bold text-[#005EB8] bg-[#DBE2E9] px-3 py-1 rounded-[4px] font-heading">
-                    Click cards to reveal
+
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-3">
+                                <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">!</span>
+                                <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Clinician Exposure</h3>
+                            </div>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed mt-2">
+                            Without a documented, independent professional witness, clinicians had no protection against uncorroborated allegations during visual or physical assessments.
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-3">
+                                <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">!</span>
+                                <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Safeguarding Vacuum</h3>
+                            </div>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed mt-2">
+                            Relying on relatives as informal chaperones meant no trained advocate was present to verify professional boundaries or identify coercion.
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-3">
+                                <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">!</span>
+                                <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Digital Risk</h3>
+                            </div>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed mt-2">
+                            Remote digital examinations operated entirely outside chaperone policy, creating a severe liability blindspot as tele-health services expanded.
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                
-                <div onclick="revealGap(this, 1)" class="ttn-card ttn-card-interactive gap-card cursor-pointer p-4 sm:p-5">
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-7 h-7 rounded-[4px] bg-[#DBE2E9] text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center shrink-0">1</span>
-                            <h4 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Reactive, Not Proactive</h4>
-                        </div>
-                        <span class="badge text-[11px] font-bold font-heading text-[#333F48] bg-[#DBE2E9] px-2.5 py-0.5 rounded-[4px]">Inspect</span>
-                    </div>
-                    <div class="details hidden mt-3 pt-3 border-t border-[#DBE2E9] text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1.5">
-                        <p class="font-bold text-[#FE5000] font-heading">Practice Defect: Waiting for patient requests.</p>
-                        <p>A chaperone was made available on request but rarely offered proactively. Patients unaware of their rights routinely proceeded without safeguards.</p>
-                    </div>
-                </div>
-
-                <div onclick="revealGap(this, 2)" class="ttn-card ttn-card-interactive gap-card cursor-pointer p-4 sm:p-5">
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-7 h-7 rounded-[4px] bg-[#DBE2E9] text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center shrink-0">2</span>
-                            <h4 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Missing at Booking</h4>
-                        </div>
-                        <span class="badge text-[11px] font-bold font-heading text-[#333F48] bg-[#DBE2E9] px-2.5 py-0.5 rounded-[4px]">Inspect</span>
-                    </div>
-                    <div class="details hidden mt-3 pt-3 border-t border-[#DBE2E9] text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1.5">
-                        <p class="font-bold text-[#FE5000] font-heading">Practice Defect: Delayed until examination.</p>
-                        <p>No expectation existed to raise chaperoning during initial booking. Patients arrived unprepared and decisions were rushed in the consultation room.</p>
-                    </div>
-                </div>
-
-                <div onclick="revealGap(this, 3)" class="ttn-card ttn-card-interactive gap-card cursor-pointer p-4 sm:p-5">
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-7 h-7 rounded-[4px] bg-[#DBE2E9] text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center shrink-0">3</span>
-                            <h4 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Informal Relatives Accepted</h4>
-                        </div>
-                        <span class="badge text-[11px] font-bold font-heading text-[#333F48] bg-[#DBE2E9] px-2.5 py-0.5 rounded-[4px]">Inspect</span>
-                    </div>
-                    <div class="details hidden mt-3 pt-3 border-t border-[#DBE2E9] text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1.5">
-                        <p class="font-bold text-[#FE5000] font-heading">Practice Defect: Conflating family with chaperones.</p>
-                        <p>Family members accompanied patients and were casually treated as chaperones despite lacking formal safeguarding training, impartiality, or legal standing.</p>
-                    </div>
-                </div>
-
-                <div onclick="revealGap(this, 4)" class="ttn-card ttn-card-interactive gap-card cursor-pointer p-4 sm:p-5">
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-7 h-7 rounded-[4px] bg-[#DBE2E9] text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center shrink-0">4</span>
-                            <h4 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Digital Care Blindspots</h4>
-                        </div>
-                        <span class="badge text-[11px] font-bold font-heading text-[#333F48] bg-[#DBE2E9] px-2.5 py-0.5 rounded-[4px]">Inspect</span>
-                    </div>
-                    <div class="details hidden mt-3 pt-3 border-t border-[#DBE2E9] text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1.5">
-                        <p class="font-bold text-[#FE5000] font-heading">Practice Defect: Remote consultations excluded.</p>
-                        <p>Policies applied solely to in-person visits. Video examinations and asynchronous digital photo reviews operated without structured chaperone protocols.</p>
-                    </div>
-                </div>
-
-                <div onclick="revealGap(this, 5)" class="ttn-card ttn-card-interactive gap-card cursor-pointer p-4 sm:p-5 md:col-span-2">
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-7 h-7 rounded-[4px] bg-[#DBE2E9] text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center shrink-0">5</span>
-                            <h4 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Poor & Inconsistent Documentation</h4>
-                        </div>
-                        <span class="badge text-[11px] font-bold font-heading text-[#333F48] bg-[#DBE2E9] px-2.5 py-0.5 rounded-[4px]">Inspect</span>
-                    </div>
-                    <div class="details hidden mt-3 pt-3 border-t border-[#DBE2E9] text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1.5">
-                        <p class="font-bold text-[#FE5000] font-heading">Practice Defect: Indefensible electronic records.</p>
-                        <p>Documentation varied widely across practices, often noting only physical presence while failing to record the offer, patient decision, or staff role.</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="mt-6 flex flex-wrap justify-between items-center gap-3 pt-4 border-t border-[#DBE2E9]">
-                <button onclick="switchView('overview')" class="btn-ghost px-3.5 py-2 text-xs sm:text-sm flex items-center space-x-1.5 cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    <span>Return to Context Summary</span>
+            <div class="flex items-center justify-between pt-4 border-t border-slate-200/60 mt-auto">
+                <button onclick="goToSlide(1)" class="btn-ghost flex items-center space-x-1.5 cursor-pointer text-xs sm:text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <span>Previous</span>
                 </button>
-                <span id="completionMessage" class="hidden text-xs font-bold text-white bg-[#00BF6F] px-3.5 py-2 rounded-[4px] font-heading flex items-center space-x-2 shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <span>All 5 Historical Gaps Reviewed</span>
-                </span>
+                <div class="flex space-x-2 items-center">
+                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
+                    <div class="h-2 w-7 bg-[#005EB8] rounded-full transition-all"></div>
+                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
+                </div>
+                <button onclick="goToSlide(3)" class="btn-continue text-xs sm:text-sm cursor-pointer shadow-sm">
+                    Continue
+                </button>
+            </div>
+        </div>
+
+        <div id="slide3" class="slide-pane flex-col flex-grow justify-between">
+            <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0C2340] tracking-tight font-heading">
+                    Catalysts for Reform
+                </h2>
+                <p class="text-[#333F48] text-sm sm:text-base mt-2">
+                    Tap to explore the three decisive drivers behind the updated NHS England standards.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8">
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">1</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Sexual Safety Charter</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="flex justify-center my-4">
+                            <img src="Factor_1.jpeg" alt="NHS Sexual Safety Charter" class="h-24 w-auto object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            Chaperoning is a core delivery mechanism of the Charter, committing NHS organizations to an absolute zero-tolerance approach to sexual misconduct.
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">2</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">CQC Evidence</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="flex justify-center my-4">
+                            <img src="Factor_2.jpeg" alt="CQC Inspection Evidence" class="h-24 w-auto object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            Regulatory inspections repeatedly exposed significant variability in how primary care practices recorded, audited, and evidenced chaperoning compliance.
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">3</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Patient Incidents</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="flex justify-center my-4">
+                            <img src="Factor_3.jpeg" alt="Patient Safety Incidents" class="h-24 w-auto object-contain" onerror="this.style.display='none'">
+                        </div>
+                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            A clear pattern emerged of incidents where the absence of an independent professional chaperone severely impaired the ability to substantiate concerns.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-slate-200/60 mt-auto">
+                <button onclick="goToSlide(2)" class="btn-ghost flex items-center space-x-1.5 cursor-pointer text-xs sm:text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <span>Previous</span>
+                </button>
+                <div class="flex space-x-2 items-center">
+                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
+                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
+                    <div class="h-2 w-7 bg-[#005EB8] rounded-full transition-all"></div>
+                </div>
+                <button class="btn-continue text-xs sm:text-sm cursor-pointer shadow-sm">
+                    Complete Review
+                </button>
             </div>
         </div>
 
     </div>
 
-    <audio id="audioOverview" src="Card_1.wav" preload="auto"></audio>
-    <audio id="audioGaps" src="Card_2.wav" preload="auto"></audio>
+    <audio id="audioSlide1" src="Card_1.wav" preload="auto"></audio>
+    <audio id="audioSlide2" src="Risk_1.wav" preload="auto"></audio>
+    <audio id="audioSlide3" src="Factor_1.wav" preload="auto"></audio>
 
     <script>
-        let revealedGaps = new Set();
+        let currentSlide = 1;
+        let isAudioPlaying = false;
         let currentAudio = null;
 
-        function switchView(viewName) {
-            const overviewView = document.getElementById('overviewView');
-            const cardsView = document.getElementById('cardsView');
-            const tabOverview = document.getElementById('tabOverview');
-            const tabCards = document.getElementById('tabCards');
+        function goToSlide(slideNum) {
+            currentSlide = slideNum;
+            document.querySelectorAll('.slide-pane').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            const targetSlide = document.getElementById(`slide${slideNum}`);
+            if (targetSlide) {
+                targetSlide.classList.add('active');
+            }
 
-            if (viewName === 'overview') {
-                overviewView.classList.remove('hidden');
-                cardsView.classList.add('hidden');
-                tabOverview.classList.add('active');
-                tabCards.classList.remove('active');
+            if (isAudioPlaying) {
+                stopAudio();
+            }
+        }
+
+        function toggleCard(card) {
+            const details = card.querySelector('.card-details');
+            const img = card.querySelector('img');
+            const isOpen = card.classList.contains('open');
+
+            if (isOpen) {
+                card.classList.remove('open');
+                if (details) details.classList.add('hidden');
+                if (img && currentSlide === 1) img.classList.remove('hidden'); // Show image again when closed on slide 1
             } else {
-                overviewView.classList.add('hidden');
-                cardsView.classList.remove('hidden');
-                tabOverview.classList.remove('active');
-                tabCards.classList.add('active');
+                card.classList.add('open');
+                if (details) details.classList.remove('hidden');
+                if (img && currentSlide === 1) img.classList.add('hidden'); // Hide image when open to save space
             }
         }
 
-        function revealGap(cardElement, index) {
-            const details = cardElement.querySelector('.details');
-            const badge = cardElement.querySelector('.badge');
-            
-            if (details.classList.contains('hidden')) {
-                details.classList.remove('hidden');
-                cardElement.classList.add('revealed');
-                badge.innerText = 'Reviewed';
-                badge.classList.remove('text-[#333F48]', 'bg-[#DBE2E9]');
-                badge.classList.add('text-white', 'bg-[#FE5000]');
-                
-                revealedGaps.add(index);
-                updateCounter();
-            }
-        }
-
-        function updateCounter() {
-            const count = revealedGaps.size;
-            const badge = document.getElementById('gapCountBadge');
-            badge.innerText = `${count}/5`;
-            
-            if (count === 5) {
-                badge.classList.remove('bg-[#DBE2E9]', 'text-[#005EB8]');
-                badge.classList.add('bg-[#00BF6F]', 'text-white');
-                document.getElementById('completionMessage').classList.remove('hidden');
-            }
-        }
-
+        // Audio Narration Toggle
         const audioToggleBtn = document.getElementById('audioToggleBtn');
-        const audioStatusText = document.getElementById('audioStatusText');
-        const audioOverview = document.getElementById('audioOverview');
-        const audioGaps = document.getElementById('audioGaps');
+        const audioSwitch = document.getElementById('audioSwitch');
+        const audioSlide1 = document.getElementById('audioSlide1');
+        const audioSlide2 = document.getElementById('audioSlide2');
+        const audioSlide3 = document.getElementById('audioSlide3');
 
         audioToggleBtn.addEventListener('click', () => {
-            const isOverviewActive = !document.getElementById('overviewView').classList.contains('hidden');
-            const targetAudio = isOverviewActive ? audioOverview : audioGaps;
-
-            if (currentAudio && !currentAudio.paused) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-                audioStatusText.innerText = "Listen to Dr. Lindsay";
-                currentAudio = null;
+            if (isAudioPlaying) {
+                stopAudio();
             } else {
-                targetAudio.play().then(() => {
-                    currentAudio = targetAudio;
-                    audioStatusText.innerText = "Pause Narration";
-                }).catch(() => {
-                    if ('speechSynthesis' in window) {
-                        const speechText = isOverviewActive 
-                            ? "Prior to December 2025, chaperoning in general practice was largely informal and reactive. Let's inspect the five key practice gaps."
-                            : "Notice the five gaps: waiting for patient requests, omitting chaperones at booking, relying on relatives, ignoring digital consultations, and poor documentation.";
-                        const utterance = new SpeechSynthesisUtterance(speechText);
-                        utterance.rate = 0.95;
-                        window.speechSynthesis.speak(utterance);
-                    }
-                });
+                startAudio();
             }
         });
 
-        [audioOverview, audioGaps].forEach(audio => {
-            audio.addEventListener('ended', () => {
-                audioStatusText.innerText = "Listen to Dr. Lindsay";
-                currentAudio = null;
+        function startAudio() {
+            let targetAudio;
+            if (currentSlide === 1) targetAudio = audioSlide1;
+            else if (currentSlide === 2) targetAudio = audioSlide2;
+            else targetAudio = audioSlide3;
+
+            targetAudio.play().then(() => {
+                isAudioPlaying = true;
+                currentAudio = targetAudio;
+                audioSwitch.classList.add('active');
+            }).catch(() => {
+                if ('speechSynthesis' in window) {
+                    let speechText = "";
+                    if (currentSlide === 1) speechText = "Before the new guidance, chaperoning in general practice had significant operational gaps. Review the five historical practice habits on this screen.";
+                    else if (currentSlide === 2) speechText = "These were not minor administrative oversights. Each gap generated direct clinical, patient, and policy risk.";
+                    else speechText = "The December 2025 NHS England guidance was driven by three decisive national catalysts: the Sexual Safety Charter, CQC inspection findings, and patient safety incidents.";
+                    
+                    const utterance = new SpeechSynthesisUtterance(speechText);
+                    utterance.rate = 0.95;
+                    window.speechSynthesis.speak(utterance);
+                    isAudioPlaying = true;
+                    audioSwitch.classList.add('active');
+                    utterance.onend = stopAudio;
+                }
             });
+        }
+
+        function stopAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            isAudioPlaying = false;
+            currentAudio = null;
+            audioSwitch.classList.remove('active');
+        }
+
+        [audioSlide1, audioSlide2, audioSlide3].forEach(audio => {
+            audio.addEventListener('ended', stopAudio);
         });
     </script>
 </body>
