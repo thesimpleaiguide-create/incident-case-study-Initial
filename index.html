@@ -20,7 +20,7 @@
             --font-heading: 'Montserrat', sans-serif;
             --radius-sm: 4px;
             --radius-soft: 8px;
-            --radius-card: 14px;
+            --radius-card: 16px;
             --shadow-main: 0px 4px 12px rgba(12, 35, 64, 0.06);
             --shadow-hover: 0px 8px 18px rgba(12, 35, 64, 0.10);
         }
@@ -37,7 +37,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Strict no-scroll constraint */
+            overflow: hidden;
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
@@ -109,7 +109,7 @@
             font-family: var(--font-heading);
             font-weight: 700;
             border-radius: var(--radius-soft);
-            padding: 8px 20px;
+            padding: 8px 22px;
             transition: background-color 180ms ease-in-out;
         }
         .btn-continue:hover {
@@ -189,50 +189,50 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 my-auto shrink-0">
                 
-                <div onclick="toggleCard(this)" class="clean-card p-3.5 sm:p-4 flex flex-col justify-start">
+                <div onclick="toggleCard(this)" class="clean-card p-4 sm:p-5 flex flex-col justify-start">
                     <div class="flex items-center justify-between mb-2">
                         <span class="badge-num w-6 h-6 rounded-full font-heading font-bold text-xs flex items-center justify-center">1</span>
-                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2">Clinical Booking</h3>
+                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2.5">Clinical Booking</h3>
                         <svg class="chevron-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     
-                    <div class="flex items-center justify-center my-2 h-20 w-full">
+                    <div class="flex items-center justify-center my-2 h-20 sm:h-24 w-full">
                         <img src="Booking_Icon.jpeg" alt="Clinical Booking Calendar" class="max-h-full w-auto object-contain">
                     </div>
 
-                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs text-[#333F48] leading-relaxed">
+                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
                         A patient books a routine video consultation to discuss a changing, suspicious skin lesion located on their upper chest.
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-3.5 sm:p-4 flex flex-col justify-start">
+                <div onclick="toggleCard(this)" class="clean-card p-4 sm:p-5 flex flex-col justify-start">
                     <div class="flex items-center justify-between mb-2">
                         <span class="badge-num w-6 h-6 rounded-full font-heading font-bold text-xs flex items-center justify-center">2</span>
-                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2">The Consultation</h3>
+                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2.5">The Consultation</h3>
                         <svg class="chevron-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     
-                    <div class="flex items-center justify-center my-2 h-20 w-full">
+                    <div class="flex items-center justify-center my-2 h-20 sm:h-24 w-full">
                         <img src="Consultation_Icon.jpeg" alt="Video Consultation" class="max-h-full w-auto object-contain">
                     </div>
 
-                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs text-[#333F48] leading-relaxed">
+                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
                         During the call, the clinician requests the patient adjust their camera and unbutton clothing. No chaperone is offered, no privacy check occurs, and the notes simply state: <em>"Video review completed."</em>
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-3.5 sm:p-4 flex flex-col justify-start">
+                <div onclick="toggleCard(this)" class="clean-card p-4 sm:p-5 flex flex-col justify-start">
                     <div class="flex items-center justify-between mb-2">
                         <span class="badge-num w-6 h-6 rounded-full font-heading font-bold text-xs flex items-center justify-center">3</span>
-                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2">The Complaint</h3>
+                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2.5">The Complaint</h3>
                         <svg class="chevron-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     
-                    <div class="flex items-center justify-center my-2 h-20 w-full">
+                    <div class="flex items-center justify-center my-2 h-20 sm:h-24 w-full">
                         <img src="Complaint_Icon.jpeg" alt="Patient Complaint Document" class="max-h-full w-auto object-contain">
                     </div>
 
-                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs text-[#333F48] leading-relaxed">
+                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
                         Days later, the patient files a formal complaint stating they felt pressured, embarrassed, and confused as to why no chaperone or face-to-face option was offered.
                     </div>
                 </div>
@@ -247,7 +247,7 @@
                     <div class="h-1.5 w-1.5 bg-slate-300 rounded-full transition-all"></div>
                 </div>
 
-                <button onclick="goToSlide(2)" class="btn-continue text-xs cursor-pointer shadow-sm">
+                <button onclick="goToSlide(2)" class="btn-continue text-xs sm:text-sm cursor-pointer shadow-sm">
                     Continue
                 </button>
             </div>
@@ -265,71 +265,71 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 my-auto shrink-0">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 my-auto shrink-0">
                 
-                <div onclick="toggleCard(this)" class="clean-card p-3 sm:p-3.5 flex flex-col justify-start">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="badge-num w-5 h-5 rounded-full font-heading font-bold text-[11px] flex items-center justify-center shrink-0">1</span>
-                        <h3 class="font-bold text-[#0C2340] text-xs sm:text-sm font-heading flex-grow ml-2 leading-tight">Video Care Chaperones</h3>
-                        <svg class="chevron-icon w-3.5 h-3.5 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <div onclick="toggleCard(this)" class="clean-card p-3.5 sm:p-4 flex flex-col justify-start">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="badge-num w-6 h-6 rounded-full font-heading font-bold text-xs flex items-center justify-center shrink-0">1</span>
+                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2 leading-snug">Video Chaperones</h3>
+                        <svg class="chevron-icon w-4 h-4 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     
-                    <div class="flex items-center justify-center my-1.5 h-16 w-full">
+                    <div class="flex items-center justify-center my-2 h-20 sm:h-22 w-full">
                         <img src="Breach_1.jpeg" alt="Video Consultation Chaperone Obligation" class="max-h-full w-auto object-contain">
                     </div>
 
-                    <div class="card-details hidden pt-2 border-t border-slate-100 text-[11px] text-[#333F48] leading-relaxed space-y-0.5">
+                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1">
                         <p class="font-bold text-[#FE5000] font-heading">Breach: Remote care assumed exempt.</p>
                         <p>Under NHS England Dec 2025 guidance, visual intimate inspections via video require the exact same proactive chaperone offer as clinic visits.</p>
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-3 sm:p-3.5 flex flex-col justify-start">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="badge-num w-5 h-5 rounded-full font-heading font-bold text-[11px] flex items-center justify-center shrink-0">2</span>
-                        <h3 class="font-bold text-[#0C2340] text-xs sm:text-sm font-heading flex-grow ml-2 leading-tight">Privacy Assessment</h3>
-                        <svg class="chevron-icon w-3.5 h-3.5 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <div onclick="toggleCard(this)" class="clean-card p-3.5 sm:p-4 flex flex-col justify-start">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="badge-num w-6 h-6 rounded-full font-heading font-bold text-xs flex items-center justify-center shrink-0">2</span>
+                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2 leading-snug">Privacy Checks</h3>
+                        <svg class="chevron-icon w-4 h-4 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     
-                    <div class="flex items-center justify-center my-1.5 h-16 w-full">
+                    <div class="flex items-center justify-center my-2 h-20 sm:h-22 w-full">
                         <img src="Breach_2.jpeg" alt="Privacy and Environmental Assessment" class="max-h-full w-auto object-contain">
                     </div>
 
-                    <div class="card-details hidden pt-2 border-t border-slate-100 text-[11px] text-[#333F48] leading-relaxed space-y-0.5">
+                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1">
                         <p class="font-bold text-[#FE5000] font-heading">Breach: No setting verification.</p>
                         <p>Clinicians must actively confirm the patient is in a secure, confidential room before asking for clothing adjustments.</p>
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-3 sm:p-3.5 flex flex-col justify-start">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="badge-num w-5 h-5 rounded-full font-heading font-bold text-[11px] flex items-center justify-center shrink-0">3</span>
-                        <h3 class="font-bold text-[#0C2340] text-xs sm:text-sm font-heading flex-grow ml-2 leading-tight">Alternative Pathways</h3>
-                        <svg class="chevron-icon w-3.5 h-3.5 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <div onclick="toggleCard(this)" class="clean-card p-3.5 sm:p-4 flex flex-col justify-start">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="badge-num w-6 h-6 rounded-full font-heading font-bold text-xs flex items-center justify-center shrink-0">3</span>
+                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2 leading-snug">Alternative Pathways</h3>
+                        <svg class="chevron-icon w-4 h-4 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     
-                    <div class="flex items-center justify-center my-1.5 h-16 w-full">
+                    <div class="flex items-center justify-center my-2 h-20 sm:h-22 w-full">
                         <img src="Breach_3.jpeg" alt="Alternative Consultation Pathways" class="max-h-full w-auto object-contain">
                     </div>
 
-                    <div class="card-details hidden pt-2 border-t border-slate-100 text-[11px] text-[#333F48] leading-relaxed space-y-0.5">
+                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1">
                         <p class="font-bold text-[#FE5000] font-heading">Breach: Patient left without options.</p>
                         <p>Patients must always be offered face-to-face appointments with a chaperone or secure asynchronous photo submission.</p>
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-3 sm:p-3.5 flex flex-col justify-start">
-                    <div class="flex items-center justify-between mb-1.5">
-                        <span class="badge-num w-5 h-5 rounded-full font-heading font-bold text-[11px] flex items-center justify-center shrink-0">4</span>
-                        <h3 class="font-bold text-[#0C2340] text-xs sm:text-sm font-heading flex-grow ml-2 leading-tight">EHR Documentation</h3>
-                        <svg class="chevron-icon w-3.5 h-3.5 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <div onclick="toggleCard(this)" class="clean-card p-3.5 sm:p-4 flex flex-col justify-start">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="badge-num w-6 h-6 rounded-full font-heading font-bold text-xs flex items-center justify-center shrink-0">4</span>
+                        <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-2 leading-snug">EHR Documentation</h3>
+                        <svg class="chevron-icon w-4 h-4 shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     
-                    <div class="flex items-center justify-center my-1.5 h-16 w-full">
+                    <div class="flex items-center justify-center my-2 h-20 sm:h-22 w-full">
                         <img src="Breach_4.jpeg" alt="Deficient Clinical Records" class="max-h-full w-auto object-contain">
                     </div>
 
-                    <div class="card-details hidden pt-2 border-t border-slate-100 text-[11px] text-[#333F48] leading-relaxed space-y-0.5">
+                    <div class="card-details hidden pt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1">
                         <p class="font-bold text-[#FE5000] font-heading">Breach: Indefensible note.</p>
                         <p>Audit-ready EHR entries must document the chaperone offer, patient decision, chaperone identity/role, and explicit consent.</p>
                     </div>
@@ -338,7 +338,7 @@
             </div>
 
             <div class="flex items-center justify-between pt-2 border-t border-slate-200/60 mt-auto shrink-0">
-                <button onclick="goToSlide(1)" class="btn-ghost flex items-center space-x-1.5 cursor-pointer text-xs">
+                <button onclick="goToSlide(1)" class="btn-ghost flex items-center space-x-1.5 cursor-pointer text-xs sm:text-sm">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                     <span>Previous</span>
                 </button>
@@ -348,7 +348,7 @@
                     <div class="h-1.5 w-6 bg-[#005EB8] rounded-full transition-all"></div>
                 </div>
 
-                <button class="btn-continue text-xs cursor-pointer shadow-sm">
+                <button class="btn-continue text-xs sm:text-sm cursor-pointer shadow-sm">
                     Continue
                 </button>
             </div>
