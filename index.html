@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Pre-2025 Reality</title>
+    <title>Incident Investigation - Remote Consultation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap');
@@ -13,15 +13,17 @@
             --ttn-trust-blue: #005EB8;
             --ttn-sky-cyan: #59CBE8;
             --ttn-action-orange: #FE5000;
+            --ttn-action-orange-hover: #E04600;
             --ttn-slate: #333F48;
             --ttn-ice-blue: #DBE2E9;
             --ttn-success: #00BF6F;
             --font-main: 'Inter', sans-serif;
             --font-heading: 'Montserrat', sans-serif;
+            --radius-sm: 4px;
             --radius-soft: 8px;
             --radius-card: 16px;
-            --shadow-main: 0px 4px 16px rgba(12, 35, 64, 0.05);
-            --shadow-hover: 0px 8px 24px rgba(12, 35, 64, 0.09);
+            --shadow-main: 0px 4px 12px rgba(12, 35, 64, 0.08);
+            --shadow-hover: 0px 8px 20px rgba(12, 35, 64, 0.12);
         }
 
         *, *::before, *::after {
@@ -46,11 +48,11 @@
             font-family: var(--font-heading);
         }
 
-        /* Clean White Card Structure */
+        /* Clean White Card Structure matching TTN tokens */
         .clean-card {
             background-color: #FFFFFF;
             border: 1.5px solid var(--ttn-ice-blue);
-            border-left: 5px solid var(--ttn-trust-blue);
+            border-left: 5px solid var(--ttn-action-orange);
             border-radius: var(--radius-card);
             box-shadow: var(--shadow-main);
             transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out, border-color 200ms ease-in-out;
@@ -62,18 +64,18 @@
             transform: translateY(-2px);
         }
 
-        .clean-card.open {
-            border-left-color: var(--ttn-action-orange);
+        .clean-card.closed {
+            border-left-color: var(--ttn-trust-blue);
         }
 
-        .clean-card.open .chevron-icon {
+        .clean-card.closed .chevron-icon {
             transform: rotate(180deg);
-            color: var(--ttn-action-orange);
+            color: var(--ttn-trust-blue);
         }
 
-        .clean-card.open .badge-num {
-            background-color: #FFE5D9;
-            color: var(--ttn-action-orange);
+        .clean-card.closed .badge-num {
+            background-color: #DBE2E9;
+            color: var(--ttn-trust-blue);
         }
 
         /* Slide Switching */
@@ -87,7 +89,7 @@
             opacity: 1;
         }
 
-        /* Buttons */
+        /* TTN Primary Continue CTA */
         .btn-continue {
             background-color: var(--ttn-trust-blue);
             color: #FFFFFF;
@@ -150,8 +152,8 @@
         
         <div class="flex items-center justify-between mb-4 w-full">
             <span class="inline-flex items-center space-x-1.5 text-[11px] font-bold text-[#005EB8] bg-[#DBE2E9] px-3 py-1 rounded-[4px] font-heading uppercase tracking-wider">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>Historical Context</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span>Clinical Incident Review</span>
             </span>
 
             <div id="audioToggleBtn" class="flex items-center space-x-2.5 cursor-pointer bg-white px-3 py-1.5 rounded-full border border-[#DBE2E9] shadow-sm hover:border-slate-300 transition-all">
@@ -165,91 +167,65 @@
             
             <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
                 <h1 class="text-3xl sm:text-4xl font-extrabold text-[#0C2340] tracking-tight font-heading">
-                    The Pre-2025 Reality
+                    The Incident
                 </h1>
                 <p class="text-[#333F48] text-sm sm:text-base mt-2">
-                    Tap to uncover the historical gaps in chaperoning practice.
+                    Tap each card to explore what occurred during this remote video consultation.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8">
                 
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                <div onclick="toggleCard(this)" class="clean-card p-5 sm:p-6 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">1</span>
-                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Reactive, not proactive</h3>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <span class="badge-num w-7 h-7 rounded-full bg-[#FFE5D9] text-[#FE5000] font-heading font-bold text-xs flex items-center justify-center transition-colors">1</span>
+                            <h3 class="font-bold text-[#0C2340] text-base font-heading flex-grow ml-3">Clinical Booking</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#FE5000] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                         </div>
+                        
                         <div class="flex justify-center my-4">
-                            <img src="Gap_1.jpeg" alt="Reactive Practice" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
+                            <img src="Booking_Icon.jpeg" alt="Clinical Booking Calendar" class="h-28 w-auto object-contain">
                         </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
-                            A chaperone was made available on request but rarely offered proactively. Patients unaware of their rights routinely proceeded without safeguards.
+
+                        <div class="card-details pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            A patient books a routine video consultation to discuss a changing, suspicious skin lesion located on their upper chest.
                         </div>
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                <div onclick="toggleCard(this)" class="clean-card p-5 sm:p-6 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">2</span>
-                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Missing at booking</h3>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <span class="badge-num w-7 h-7 rounded-full bg-[#FFE5D9] text-[#FE5000] font-heading font-bold text-xs flex items-center justify-center transition-colors">2</span>
+                            <h3 class="font-bold text-[#0C2340] text-base font-heading flex-grow ml-3">The Consultation</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#FE5000] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                         </div>
+                        
                         <div class="flex justify-center my-4">
-                            <img src="Gap_2.jpeg" alt="Missing at Booking" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
+                            <img src="Consultation_Icon.jpeg" alt="Video Consultation" class="h-28 w-auto object-contain">
                         </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
-                            No expectation existed to raise chaperoning during initial booking. Patients arrived unprepared and decisions were rushed in the consultation room.
+
+                        <div class="card-details pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            During the call, the clinician requests the patient adjust their camera and unbutton clothing. No chaperone is offered, no privacy check occurs, and the notes simply state: <em>"Video review completed."</em>
                         </div>
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                <div onclick="toggleCard(this)" class="clean-card p-5 sm:p-6 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">3</span>
-                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Informal relatives</h3>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <span class="badge-num w-7 h-7 rounded-full bg-[#FFE5D9] text-[#FE5000] font-heading font-bold text-xs flex items-center justify-center transition-colors">3</span>
+                            <h3 class="font-bold text-[#0C2340] text-base font-heading flex-grow ml-3">The Complaint</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#FE5000] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                         </div>
+                        
                         <div class="flex justify-center my-4">
-                            <img src="Gap_3.jpeg" alt="Informal Relatives" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
+                            <img src="Complaint_Icon.jpeg" alt="Patient Complaint Document" class="h-28 w-auto object-contain">
                         </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
-                            Family members accompanied patients and were casually treated as chaperones despite lacking formal safeguarding training, impartiality, or legal standing.
-                        </div>
-                    </div>
-                </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between sm:col-span-1 lg:col-span-1">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">4</span>
-                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Digital blindspots</h3>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <div class="flex justify-center my-4">
-                            <img src="Gap_4.jpeg" alt="Digital Blindspots" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
-                        </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
-                            Policies applied solely to in-person visits. Video examinations and asynchronous digital photo reviews operated without structured chaperone protocols.
-                        </div>
-                    </div>
-                </div>
-
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between sm:col-span-1 lg:col-span-2">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">5</span>
-                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Poor documentation</h3>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <div class="flex justify-center my-4">
-                            <img src="Gap_5.jpeg" alt="Poor Documentation" class="h-28 w-auto object-contain" onerror="this.style.display='none'">
-                        </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
-                            Documentation varied widely across practices, often noting only physical presence while failing to record the proactive offer, patient decision, or staff role.
+                        <div class="card-details pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                            Days later, the patient files a formal complaint stating they felt pressured, embarrassed, and confused as to why no chaperone or face-to-face option was offered.
                         </div>
                     </div>
                 </div>
@@ -258,87 +234,108 @@
 
             <div class="flex items-center justify-between pt-4 border-t border-slate-200/60 mt-auto">
                 <div class="w-24"></div>
+
                 <div class="flex space-x-2 items-center">
                     <div class="h-2 w-7 bg-[#005EB8] rounded-full transition-all"></div>
                     <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
-                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
                 </div>
+
                 <button onclick="goToSlide(2)" class="btn-continue text-xs sm:text-sm cursor-pointer shadow-sm">
                     Continue
                 </button>
             </div>
         </div>
 
+
         <div id="slide2" class="slide-pane flex-col flex-grow justify-between">
+            
             <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0C2340] tracking-tight font-heading">
-                    Where the Gaps Created Risk
+                    4 Critical Safeguarding Breaches
                 </h2>
                 <p class="text-[#333F48] text-sm sm:text-base mt-2">
-                    Tap to inspect the clinical and governance liabilities generated by these historical gaps.
+                    Tap to uncover the clinical and governance breaches against NHS England standards.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                
+                <div onclick="toggleCard(this)" class="clean-card p-5 sm:p-6 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center space-x-3">
-                                <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">!</span>
-                                <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Patient Vulnerability</h3>
-                            </div>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <span class="badge-num w-7 h-7 rounded-full bg-[#FFE5D9] text-[#FE5000] font-heading font-bold text-xs flex items-center justify-center transition-colors">1</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Chaperones in Video Consultations</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#FE5000] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                         </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed mt-2">
-                            Patients unaware of their right could not exercise it. Children, young people, and vulnerable adults were particularly exposed to unchaperoned intimate procedures.
+                        
+                        <div class="flex justify-center my-4">
+                            <img src="Breach_1.jpeg" alt="Video Consultation Chaperone Obligation" class="h-28 w-auto object-contain">
+                        </div>
+
+                        <div class="card-details pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1">
+                            <p class="font-bold text-[#FE5000] font-heading">Breach: Assuming remote calls are exempt.</p>
+                            <p>Under NHS England Dec 2025 guidance, visual intimate inspections (including chest, groin, or pelvic regions) over video require the exact same proactive chaperone offer as an in-person clinic visit.</p>
                         </div>
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                <div onclick="toggleCard(this)" class="clean-card p-5 sm:p-6 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center space-x-3">
-                                <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">!</span>
-                                <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Clinician Exposure</h3>
-                            </div>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <span class="badge-num w-7 h-7 rounded-full bg-[#FFE5D9] text-[#FE5000] font-heading font-bold text-xs flex items-center justify-center transition-colors">2</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Privacy & Environmental Assessment</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#FE5000] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                         </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed mt-2">
-                            Without a documented, independent professional witness, clinicians had no protection against uncorroborated allegations during visual or physical assessments.
+                        
+                        <div class="flex justify-center my-4">
+                            <img src="Breach_2.jpeg" alt="Privacy and Environmental Assessment" class="h-28 w-auto object-contain">
+                        </div>
+
+                        <div class="card-details pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1">
+                            <p class="font-bold text-[#FE5000] font-heading">Breach: No verification of the patient's setting.</p>
+                            <p>Clinicians must actively confirm that the patient is in a secure, confidential environment and comfortable with the digital format prior to requesting any clothing adjustments.</p>
                         </div>
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                <div onclick="toggleCard(this)" class="clean-card p-5 sm:p-6 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center space-x-3">
-                                <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">!</span>
-                                <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Safeguarding Vacuum</h3>
-                            </div>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <span class="badge-num w-7 h-7 rounded-full bg-[#FFE5D9] text-[#FE5000] font-heading font-bold text-xs flex items-center justify-center transition-colors">3</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Lack of Alternative Pathways</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#FE5000] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                         </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed mt-2">
-                            Relying on relatives as informal chaperones meant no trained advocate was present to verify professional boundaries or identify coercion.
+                        
+                        <div class="flex justify-center my-4">
+                            <img src="Breach_3.jpeg" alt="Alternative Consultation Pathways" class="h-28 w-auto object-contain">
+                        </div>
+
+                        <div class="card-details pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1">
+                            <p class="font-bold text-[#FE5000] font-heading">Breach: Patient felt pressured without options.</p>
+                            <p>Patients must always be offered alternative pathways, such as booking an in-person appointment with a chaperone or submitting an asynchronous still image via secure practice software.</p>
                         </div>
                     </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
+                <div onclick="toggleCard(this)" class="clean-card p-5 sm:p-6 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center space-x-3">
-                                <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">!</span>
-                                <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading">Digital Risk</h3>
-                            </div>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <span class="badge-num w-7 h-7 rounded-full bg-[#FFE5D9] text-[#FE5000] font-heading font-bold text-xs flex items-center justify-center transition-colors">4</span>
+                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Deficient EHR Documentation</h3>
+                            <svg class="chevron-icon w-5 h-5 text-[#FE5000] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                         </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed mt-2">
-                            Remote digital examinations operated entirely outside chaperone policy, creating a severe liability blindspot as tele-health services expanded.
+                        
+                        <div class="flex justify-center my-4">
+                            <img src="Breach_4.jpeg" alt="Deficient Clinical Records" class="h-28 w-auto object-contain">
+                        </div>
+
+                        <div class="card-details pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed space-y-1">
+                            <p class="font-bold text-[#FE5000] font-heading">Breach: "Video review completed" is indefensible.</p>
+                            <p>Audit-ready EHR entries must document: the chaperone offer, patient decision, chaperone identity and clinical role, and explicit consent for visual assessment.</p>
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="flex items-center justify-between pt-4 border-t border-slate-200/60 mt-auto">
@@ -346,98 +343,22 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                     <span>Previous</span>
                 </button>
+
                 <div class="flex space-x-2 items-center">
                     <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
                     <div class="h-2 w-7 bg-[#005EB8] rounded-full transition-all"></div>
-                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
-                </div>
-                <button onclick="goToSlide(3)" class="btn-continue text-xs sm:text-sm cursor-pointer shadow-sm">
-                    Continue
-                </button>
-            </div>
-        </div>
-
-        <div id="slide3" class="slide-pane flex-col flex-grow justify-between">
-            <div class="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-[#0C2340] tracking-tight font-heading">
-                    Catalysts for Reform
-                </h2>
-                <p class="text-[#333F48] text-sm sm:text-base mt-2">
-                    Tap to explore the three decisive drivers behind the updated NHS England standards.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8">
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">1</span>
-                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Sexual Safety Charter</h3>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <div class="flex justify-center my-4">
-                            <img src="Factor_1.jpeg" alt="NHS Sexual Safety Charter" class="h-24 w-auto object-contain" onerror="this.style.display='none'">
-                        </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
-                            Chaperoning is a core delivery mechanism of the Charter, committing NHS organizations to an absolute zero-tolerance approach to sexual misconduct.
-                        </div>
-                    </div>
                 </div>
 
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">2</span>
-                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">CQC Evidence</h3>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <div class="flex justify-center my-4">
-                            <img src="Factor_2.jpeg" alt="CQC Inspection Evidence" class="h-24 w-auto object-contain" onerror="this.style.display='none'">
-                        </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
-                            Regulatory inspections repeatedly exposed significant variability in how primary care practices recorded, audited, and evidenced chaperoning compliance.
-                        </div>
-                    </div>
-                </div>
-
-                <div onclick="toggleCard(this)" class="clean-card p-5 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="badge-num w-7 h-7 rounded-full bg-blue-100 text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center transition-colors">3</span>
-                            <h3 class="font-bold text-[#0C2340] text-sm sm:text-base font-heading flex-grow ml-3">Patient Incidents</h3>
-                            <svg class="chevron-icon w-5 h-5 text-[#005EB8] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                        <div class="flex justify-center my-4">
-                            <img src="Factor_3.jpeg" alt="Patient Safety Incidents" class="h-24 w-auto object-contain" onerror="this.style.display='none'">
-                        </div>
-                        <div class="card-details hidden pt-3 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
-                            A clear pattern emerged of incidents where the absence of an independent professional chaperone severely impaired the ability to substantiate concerns.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-between pt-4 border-t border-slate-200/60 mt-auto">
-                <button onclick="goToSlide(2)" class="btn-ghost flex items-center space-x-1.5 cursor-pointer text-xs sm:text-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    <span>Previous</span>
-                </button>
-                <div class="flex space-x-2 items-center">
-                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
-                    <div class="h-2 w-2 bg-slate-300 rounded-full transition-all"></div>
-                    <div class="h-2 w-7 bg-[#005EB8] rounded-full transition-all"></div>
-                </div>
                 <button class="btn-continue text-xs sm:text-sm cursor-pointer shadow-sm">
-                    Complete Review
+                    Continue
                 </button>
             </div>
         </div>
 
     </div>
 
-    <audio id="audioSlide1" src="Card_1.wav" preload="auto"></audio>
-    <audio id="audioSlide2" src="Risk_1.wav" preload="auto"></audio>
-    <audio id="audioSlide3" src="Factor_1.wav" preload="auto"></audio>
+    <audio id="audioSlide1" src="Incident_Brief.wav" preload="auto"></audio>
+    <audio id="audioSlide2" src="Incident_Debrief.wav" preload="auto"></audio>
 
     <script>
         let currentSlide = 1;
@@ -462,16 +383,16 @@
         function toggleCard(card) {
             const details = card.querySelector('.card-details');
             const img = card.querySelector('img');
-            const isOpen = card.classList.contains('open');
+            const isClosed = card.classList.contains('closed');
 
-            if (isOpen) {
-                card.classList.remove('open');
-                if (details) details.classList.add('hidden');
-                if (img && currentSlide === 1) img.classList.remove('hidden'); // Show image again when closed on slide 1
-            } else {
-                card.classList.add('open');
+            if (isClosed) {
+                card.classList.remove('closed');
                 if (details) details.classList.remove('hidden');
-                if (img && currentSlide === 1) img.classList.add('hidden'); // Hide image when open to save space
+                if (img) img.classList.remove('hidden');
+            } else {
+                card.classList.add('closed');
+                if (details) details.classList.add('hidden');
+                if (img) img.classList.add('hidden');
             }
         }
 
@@ -480,7 +401,6 @@
         const audioSwitch = document.getElementById('audioSwitch');
         const audioSlide1 = document.getElementById('audioSlide1');
         const audioSlide2 = document.getElementById('audioSlide2');
-        const audioSlide3 = document.getElementById('audioSlide3');
 
         audioToggleBtn.addEventListener('click', () => {
             if (isAudioPlaying) {
@@ -491,29 +411,16 @@
         });
 
         function startAudio() {
-            let targetAudio;
-            if (currentSlide === 1) targetAudio = audioSlide1;
-            else if (currentSlide === 2) targetAudio = audioSlide2;
-            else targetAudio = audioSlide3;
-
+            const targetAudio = currentSlide === 1 ? audioSlide1 : audioSlide2;
+            
+            // Only play the cloned .wav files. No robotic fallback.
             targetAudio.play().then(() => {
                 isAudioPlaying = true;
                 currentAudio = targetAudio;
                 audioSwitch.classList.add('active');
-            }).catch(() => {
-                if ('speechSynthesis' in window) {
-                    let speechText = "";
-                    if (currentSlide === 1) speechText = "Before the new guidance, chaperoning in general practice had significant operational gaps. Review the five historical practice habits on this screen.";
-                    else if (currentSlide === 2) speechText = "These were not minor administrative oversights. Each gap generated direct clinical, patient, and policy risk.";
-                    else speechText = "The December 2025 NHS England guidance was driven by three decisive national catalysts: the Sexual Safety Charter, CQC inspection findings, and patient safety incidents.";
-                    
-                    const utterance = new SpeechSynthesisUtterance(speechText);
-                    utterance.rate = 0.95;
-                    window.speechSynthesis.speak(utterance);
-                    isAudioPlaying = true;
-                    audioSwitch.classList.add('active');
-                    utterance.onend = stopAudio;
-                }
+            }).catch((error) => {
+                console.error("Audio playback failed. Please ensure files are hosted and paths are exact.", error);
+                audioSwitch.classList.remove('active');
             });
         }
 
@@ -522,15 +429,12 @@
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
             }
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
             isAudioPlaying = false;
             currentAudio = null;
             audioSwitch.classList.remove('active');
         }
 
-        [audioSlide1, audioSlide2, audioSlide3].forEach(audio => {
+        [audioSlide1, audioSlide2].forEach(audio => {
             audio.addEventListener('ended', stopAudio);
         });
     </script>
